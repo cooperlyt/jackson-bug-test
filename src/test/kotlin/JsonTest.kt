@@ -1,6 +1,7 @@
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JavaType
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.deser.BeanDeserializer
 import io.github.cooperlyt.Application
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -16,10 +17,10 @@ class JsonTest {
     @Autowired
     private lateinit var objectMapper: ObjectMapper
 
-    data class SimpleStockFreezeStatusMessage(
-         val businessId: Long,
-         val success: Boolean,
-         val tenantId: String,
+    class SimpleStockFreezeStatusMessage(
+         var businessId: Long,
+         var success: Boolean,
+         var tenantId: String,
     )
 
     @Test
@@ -33,6 +34,7 @@ class JsonTest {
 
         val view: Class<*> = SimpleStockFreezeStatusMessage::class.java
         val javaType: JavaType = objectMapper.constructType(object : TypeReference<SimpleStockFreezeStatusMessage>() {})
+
 
         //this is Spring message Usage
         val value2 = objectMapper.readerWithView(view).forType(javaType).readValues<Any>(json).nextValue()
