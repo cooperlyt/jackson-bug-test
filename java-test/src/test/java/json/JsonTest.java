@@ -52,8 +52,7 @@ public class JsonTest {
     }
   }
 
-  @Test
-  public void testSpringJsonMessage() throws IOException {
+  public void testSpringJsonMessage(ObjectMapper objectMapper) throws IOException {
     var json = "{\"businessId\":1336504106360835,\"tenantId\":\"first\",\"success\":false}";
     var value = objectMapper.readValue(json, SimpleStockFreezeStatusMessage.class);
 
@@ -61,21 +60,26 @@ public class JsonTest {
 
     assertEquals(value.tenantId, "first");
 
-
-
     Class<?> view = SimpleStockFreezeStatusMessage.class;
     JavaType javaType = objectMapper.constructType(new  TypeReference<SimpleStockFreezeStatusMessage>() {});
-
 
     //this is Spring message Usage
     var value2 = (SimpleStockFreezeStatusMessage)objectMapper.readerWithView(view).forType(javaType).readValue(json);
 
-
     System.out.println("message ser by readerWithView: " + value2.tenantId);
 
     assertEquals(value2.tenantId, "first");
+  }
+
+  @Test
+  public void testByDefaultMapper() throws IOException {
+    testSpringJsonMessage(new ObjectMapper());
+  }
 
 
+  @Test
+  public void testBySpringMapper() throws IOException {
+    testSpringJsonMessage(objectMapper);
   }
 
 
