@@ -1,6 +1,0 @@
-server:
-  port: 19006
-
-spring:
-  application:
-    name: lease

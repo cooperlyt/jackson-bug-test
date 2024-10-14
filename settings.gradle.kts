@@ -3,3 +3,4 @@ plugins {
 }
 rootProject.name = "message-json-test"
 include("java-test")
+include("kotlin-test")
