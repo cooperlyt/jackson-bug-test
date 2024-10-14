@@ -2,6 +2,7 @@ import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JavaType
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.deser.BeanDeserializer
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import io.github.cooperlyt.Application
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -14,17 +15,16 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @SpringBootTest(classes = [Application::class])
 class JsonTest {
 
-    @Autowired
-    private lateinit var objectMapper: ObjectMapper
 
-    class SimpleStockFreezeStatusMessage(
-         var businessId: Long,
-         var success: Boolean,
-         var tenantId: String,
+
+    data class SimpleStockFreezeStatusMessage(
+         val businessId: Long,
+         val success: Boolean,
+         val tenantId: String,
     )
 
-    @Test
-    fun testSpringJsonMessage() {
+
+    private fun testJsonMessage(objectMapper: ObjectMapper) {
 
         val json = """{"businessId":1336504106360835,"tenantId":"first","success":false}"""
         val value = objectMapper.readValue(json, SimpleStockFreezeStatusMessage::class.java)
@@ -41,5 +41,18 @@ class JsonTest {
         println("message ser by readerWithView: $value2")
 
         assertEquals((value2 as SimpleStockFreezeStatusMessage).tenantId, "first")
+    }
+
+    @Autowired
+    private lateinit var objectMapper: ObjectMapper
+
+    @Test
+    fun testSpringMapper() {
+        testJsonMessage(objectMapper)
+    }
+
+    @Test
+    fun testDefaultMapper() {
+        testJsonMessage(ObjectMapper().registerKotlinModule())
     }
 }

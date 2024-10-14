@@ -23,8 +23,6 @@ dependencies {
 //    implementation("com.fasterxml.jackson.core:jackson-databind:2.18.0")
 
 
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-
 
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
