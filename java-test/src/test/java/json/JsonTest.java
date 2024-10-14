@@ -1,10 +1,7 @@
 package json;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JSR310Module;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
@@ -133,6 +130,8 @@ public class JsonTest {
 
     ob = ob.configure(WRITE_DATES_AS_TIMESTAMPS, false);
     ob = ob.configure(WRITE_DURATIONS_AS_TIMESTAMPS, false);
+    ob = ob.configure(MapperFeature.DEFAULT_VIEW_INCLUSION, false);
+
     testSpringJsonMessage(ob);
   }
 
