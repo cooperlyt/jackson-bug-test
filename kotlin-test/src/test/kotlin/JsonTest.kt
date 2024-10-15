@@ -31,7 +31,7 @@ class JsonTest {
         val javaType: JavaType = objectMapper.constructType(object : TypeReference<SimpleMessage>() {})
 
         //this is Spring message Usage
-        val value2 = objectMapper.readerWithView(view).forType(javaType).readValues<Any>(json).nextValue()
+        val value2 = objectMapper.readerWithView(view).forType(javaType).readValue<Any>(json)
         println("message ser by readerWithView: $value2")
 
         assertEquals((value2 as SimpleMessage).tenantId, "first")
